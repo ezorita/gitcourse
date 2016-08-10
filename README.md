@@ -13,6 +13,11 @@ Then set your name and e-mail address:
 git config --global user.name "Homer Simpson"
 git config --global user.email "homer@springfieldpower.com"
 ```
+I also recommend adding an alias that makes `git log` much prettier:
+```Shell
+git config alias.hist "log --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short"
+```
+And then use `git hist` in place of `git log`.
 ## First repo
 ### Init the repository
 Make a new directory for your project and then let's `git init` the repository!
