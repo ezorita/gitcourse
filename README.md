@@ -63,13 +63,15 @@ Changes to be committed:
 	new file:   file.txt
 
 ```
-Voila! See that now `file.txt` is in the _Changes to be commited_? That means that we are only one step away from permanently storing `file.txt` in its current version! Let's make a commit to add `file.txt` to the project:
+Voila! See that now `file.txt` is in the _Changes to be commited_? That means that we are only one step away from permanently storing `file.txt` in its current (empty) version! Let's make a commit to add `file.txt` to the project:
 ```console
 $ git commit -m "Add file.txt"
 [master (root-commit) 7995707] Add file.txt.
  1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 file.txt
 ```
+Let us briefly explain the `commit` command, it's actually pretty simple. Once you have the desired files in the staging area (remember that we add them using `git add` and check what is in the staging area with `git status`) use `git commit -m "message"`, where `message` should be a short description of the updates performed in this commit. 
+
 Now we have added `file.txt` to the repository and git will track the changes made to this file. If you immediately type `git status` git will report _nothing to commit, working directory clean_. This means that all the tracked files are in their latest versions. Let's now update `file.txt` and see how git reacts...
 ```console
 $ echo "Hello!" > file.txt
@@ -96,3 +98,55 @@ index e69de29..10ddd6d 100644
 
 ### Version history
 
+Now that our project has one commit, we can check the commit history with `git log`:
+```console
+$ git log
+commit 7995707d1498fe32541818d3f4e19c580472d893
+Author: Homer Simpson <homer@springfieldpower.com>
+Date:   Wed Aug 10 17:55:53 2016 +0200
+
+    Add file.txt.
+```
+Indeed, our project has only one commit, the one in which we added `file.txt`. Let's now add another files and save the previous changes to `file.txt` made in the previous section (remember we echo'ed "Hello!" to `file.txt`). So first, we will create the file `index.html` and then add the updated `file.txt` together with `index.html`.
+```console
+$ touch index.html
+$ git add index.html file.txt
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   file.txt
+	new file:   index.html
+
+```
+Now we commit the changes:
+```console
+$ git commit -m "Add empty index.html. Update file.txt."
+[master 5f3852c] Add empty index.html. Update file.txt
+ 2 files changed, 1 insertion(+)
+ create mode 100644 index.html
+```
+So now our history should have two commits, right? Let's check:
+```console
+$ git log
+commit 5f3852cfe844488f101ab9cb15690aadbdb1a642
+Author: Homer Simpson <homer@springfieldpower.com>
+Date:   Wed Aug 10 19:07:06 2016 +0200
+
+    Add empty index.html. Update file.txt
+
+commit 7995707d1498fe32541818d3f4e19c580472d893
+Author: Homer Simpson <homer@springfieldpower.com>
+Date:   Wed Aug 10 17:55:53 2016 +0200
+
+    Add file.txt.
+
+```
+Note that each commit has a different `hash`. The `hash` is the bunch of numbers and letters that appear after the word `commit`, i.e. `5f3852cfe844488f101ab9cb15690aadbdb1a642` and `7995707d1498fe32541818d3f4e19c580472d893`. This is the only _name_ that identifies the commit, but we don't need to use the whole `hash`, using the first 7 characters is enough. Also, imagine that we have a project with thousands of commits... The output of `git log` would be very long and quite unreadable! So, let's try the alias `git hist` we set at the beginning of this tutorial:
+```console
+$ git hist
+* 5f3852c 2016-08-10 | [Homer Simpson] Add empty index.html. Update file.txt (HEAD, master)
+* 7995707 2016-08-10 | [Homer Simpson] Add file.txt.
+```
+Aha! This is much more compact and readable. Note that the first commit has `(HEAD, master)`? 
